@@ -1,11 +1,13 @@
 import React from 'react'
 import { Container, Button, Table, ButtonGroup } from 'react-bootstrap'
 import { useState, useEffect } from 'react';
+import ModalCadastrar from '../components/ModalCadastrar';
 
 const url = "http://localhost:5000/usuarios"
 
 const Home = () => {
   const [usuarios, setUsuarios] = useState([]);
+  const [modalCadastrar, setModalCadastrar] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -20,14 +22,13 @@ const Home = () => {
     fetchData();
   }, []);
 
-
   return (
     <div>
         <Container>
           <h1>Lista de Algo</h1>
           <div className='d-grid col-2 gap-2'>
-            <Button variant='primary' size='lg' className='mb-3 d-inline-flex justify-content-center'>
-              <span className='material-symbols-outlined flex' style={{ fontSize: "30px" }}>add_circle</span>
+            <Button variant='primary' size='lg' className='mb-3 d-inline-flex justify-content-center' onClick={() => setModalCadastrar(true)}>
+              <span className='material-symbols-outlined flex' style={{ fontSize: "30px", paddingRight: "8px" }}>add_circle</span>
               Cadastrar
             </Button>
           </div>
@@ -38,7 +39,7 @@ const Home = () => {
                 <th>#</th>
                 <th>Nome</th>
                 <th>Email</th>
-                <th>Senha</th>
+                <th>Tipo</th>
                 <th></th>
               </tr>
             </thead>
@@ -48,11 +49,19 @@ const Home = () => {
                   <td>{usuario.id}</td>
                   <td>{usuario.nome}</td>
                   <td>{usuario.email}</td>
-                  <td>{usuario.senha}</td>
+                  <td>{usuario.tipo}</td>
                   <td>
                   <ButtonGroup size='sm'>
                     <Button variant="info">Editar</Button>
-                    <Button variant="danger">Excluir</Button>
+
+                    <Button variant="danger" onClick={async () => {
+                      const res = await fetch(url + `/${usuario.id}`, {
+                        method: 'DELETE',
+                        headers: {"Content-Type": "application/json"}});
+                        const funcionarioRemovido = await res.json()
+                        //alert(`Usuário ${funcionarioRemovido.nome} foi excluído.`)
+                    }}>Excluir</Button>
+
                   </ButtonGroup>
                   </td>
                 </tr>
@@ -60,6 +69,8 @@ const Home = () => {
               
             </tbody>
           </Table>
+
+          <ModalCadastrar show={modalCadastrar} onHide={() => setModalCadastrar(false)}/>
 
         </Container>
     </div>

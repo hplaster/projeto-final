@@ -85,7 +85,6 @@ const Login = () => {
                     <Form.Control type="password" placeholder="Password" value={senha} onChange={(e) => { setSenha(e.target.value) }} />
                 </FloatingLabel>
 
-                { }
                 <Alert key="danger" variant={alertaVariant} className={alertaClass}>{alertaMensagem}</Alert>
                 <Button variant="primary" type='submit'>Cadastrar</Button>
             </form>

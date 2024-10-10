@@ -12,6 +12,7 @@ const Cadastro = () => {
     const navigate = useNavigate()
 
     //VARIÁVEIS PARA O ALERTA 
+    const [tipo, setTipo] = useState("Administrador");
     const [nome, setNome] = useState();
     const [email, setEmail] = useState();
     const [senha, setSenha] = useState();
@@ -30,7 +31,7 @@ const Cadastro = () => {
                     if (!confirmaSenha == '') {
                         if (senha === confirmaSenha) {
                             console.log("Logado")
-                            const user = {nome, email, senha}
+                            const user = {nome, email, senha, tipo}
                             const res = await fetch(url, {
                                 method: 'POST',
                                 headers: {"Content-Type": "application/json"},
